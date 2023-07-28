@@ -105,31 +105,7 @@ internal static class LoggerExtensionSource
                                                                                                     Token(SyntaxKind
                                                                                                         .CommaToken),
                                                                                                     Argument(
-                                                                                                        ObjectCreationExpression(
-                                                                                                                IdentifierName(
-                                                                                                                    "EventId"))
-                                                                                                            .WithArgumentList(
-                                                                                                                ArgumentList(
-                                                                                                                    SeparatedList
-                                                                                                                        <ArgumentSyntax>(
-                                                                                                                            new
-                                                                                                                                SyntaxNodeOrToken
-                                                                                                                                []
-                                                                                                                                {
-                                                                                                                                    Argument(
-                                                                                                                                        LiteralExpression(
-                                                                                                                                            SyntaxKind
-                                                                                                                                                .NumericLiteralExpression,
-                                                                                                                                            Literal(logMessageToGenerate.EventId.Id))),
-                                                                                                                                    Token(
-                                                                                                                                        SyntaxKind
-                                                                                                                                            .CommaToken),
-                                                                                                                                    Argument(
-                                                                                                                                        LiteralExpression(
-                                                                                                                                            SyntaxKind
-                                                                                                                                                .StringLiteralExpression,
-                                                                                                                                            Literal(logMessageToGenerate.EventId.Name ?? "")))
-                                                                                                                                })))),
+                                                                                                        GetEventIdOrDefault(logMessageToGenerate)),
                                                                                                     Token(SyntaxKind
                                                                                                         .CommaToken),
                                                                                                     Argument(
@@ -173,6 +149,35 @@ internal static class LoggerExtensionSource
                                             }))))))
             .NormalizeWhitespace()
             .GetText(Encoding.UTF8);
+    }
+
+    private static ObjectCreationExpressionSyntax GetEventIdOrDefault(LogMessageToGenerate logMessageToGenerate)
+    {
+        return ObjectCreationExpression(
+                IdentifierName(
+                    "EventId"))
+            .WithArgumentList(
+                ArgumentList(
+                    SeparatedList
+                        <ArgumentSyntax>(
+                            new
+                                SyntaxNodeOrToken
+                                []
+                                {
+                                    Argument(
+                                        LiteralExpression(
+                                            SyntaxKind
+                                                .NumericLiteralExpression,
+                                            Literal(logMessageToGenerate.EventId.Id))),
+                                    Token(
+                                        SyntaxKind
+                                            .CommaToken),
+                                    Argument(
+                                        LiteralExpression(
+                                            SyntaxKind
+                                                .StringLiteralExpression,
+                                            Literal(logMessageToGenerate.EventId.Name ?? "")))
+                                })));
     }
 
     private static SyntaxNodeOrTokenList BuildMethodParameters(LogMessageToGenerate logMessageToGenerate)

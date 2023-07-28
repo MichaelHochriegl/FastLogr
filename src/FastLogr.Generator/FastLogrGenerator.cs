@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using FastLogr.Attributes;
 using FastLogr.Generator.Sources;
 using Microsoft.CodeAnalysis;
@@ -15,9 +16,10 @@ public class FastLogrGenerator : IIncrementalGenerator
     
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
+        Debugger.Launch();
         var logMessagesToGenerate = context.SyntaxProvider.ForAttributeWithMetadataName(
             MarkerAttributeFullQualifiedNameTest,
-            static (_, _) => true,
+            static (syntaxNode, _) => true,
             GetSemanticTargetForGeneration).Where(x => x is not null);
         
         context.RegisterSourceOutput(logMessagesToGenerate, GenerateLogMessages!);
@@ -88,9 +90,10 @@ public class FastLogrGenerator : IIncrementalGenerator
         
         var messageTemplate = attribute.NamedArguments.First(a => a.Key == "MessageTemplate").Value.Value;
         var logLevel = attribute.NamedArguments.FirstOrDefault(a => a.Key == "LogLevel").Value.Value ?? LogLevel.Information;
-        var eventId = attribute.NamedArguments.FirstOrDefault(a => a.Key == "EventId").Value.Value ?? new EventId();
+        var eventId = attribute.NamedArguments.FirstOrDefault(a => a.Key == "EventId").Value.Value ?? 0;
+        var eventName = attribute.NamedArguments.FirstOrDefault(a => a.Key == "EventName").Value.Value;
         
         
-        return new LogMessageToGenerate(className, actionTypes, (LogLevel)logLevel, (EventId)eventId, (string)messageTemplate!, compilationUnit.Usings);
+        return new LogMessageToGenerate(className, actionTypes, (LogLevel)logLevel, new EventId((int)eventId, (string?)eventName), (string)messageTemplate!, compilationUnit.Usings);
     }
 }
