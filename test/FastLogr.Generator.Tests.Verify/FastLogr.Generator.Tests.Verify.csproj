@@ -24,4 +24,9 @@
       </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\FastLogr.Attributes\FastLogr.Attributes.csproj" />
+      <ProjectReference Include="..\..\src\FastLogr.Generator\FastLogr.Generator.csproj" />
+    </ItemGroup>
+
 </Project>
