@@ -35,6 +35,10 @@
   </Target>
 
 
+  <ItemGroup>
+    <None Include="../../LICENSE" Pack="true" PackagePath="\" />
+    <None Include="../../README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
   <ItemGroup>
     <!-- Pack the generator dll in the analyzers/dotnet/cs path -->
