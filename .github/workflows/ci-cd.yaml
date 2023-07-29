@@ -13,8 +13,7 @@ env:
   # Project name to pack and publish
   PROJECT_NAME: FastLogr.Generator
   # GitHub Packages Feed settings
-  GITHUB_FEED: https://nuget.pkg.github.com/MichaelHochriegl/
-  GITHUB_USER: MichaelHochriegl
+  GITHUB_FEED: https://nuget.pkg.github.com/MichaelHochriegl/index.json
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   # Official NuGet Feed settings
   NUGET_FEED: https://api.nuget.org/v3/index.json
@@ -63,11 +62,7 @@ jobs:
         with:
           name: nupkg
       - name: Push to GitHub Feed
-        run: |
-          for f in ./nupkg/*.nupkg
-          do
-            curl -vX PUT -u "$GITHUB_USER:$GITHUB_TOKEN" -F package=@$f $GITHUB_FEED
-          done
+        run: dotnet nuget push ./nupkg/*.nupkg --source $GITHUB_FEED --skip-duplicate --api-key ${GITHUB_TOKEN}
   deploy:
     needs: build
     if: github.event_name == 'release'
@@ -89,10 +84,6 @@ jobs:
           echo Clean Version: $VERSION
           dotnet pack -v normal -c Release --include-symbols --include-source -p:PackageVersion=$VERSION -o nupkg src/$PROJECT_NAME/$PROJECT_NAME.*proj
       - name: Push to GitHub Feed
-        run: |
-          for f in ./nupkg/*.nupkg
-          do
-            curl -vX PUT -u "$GITHUB_USER:$GITHUB_TOKEN" -F package=@$f $GITHUB_FEED
-          done
+        run: dotnet nuget push ./nupkg/*.nupkg --source $GITHUB_FEED --skip-duplicate --api-key ${GITHUB_TOKEN}
       - name: Push to NuGet Feed
         run: dotnet nuget push ./nupkg/*.nupkg --source $NUGET_FEED --skip-duplicate --api-key $NUGET_KEY
