@@ -62,7 +62,9 @@ jobs:
         with:
           name: nupkg
       - name: Push to GitHub Feed
-        run: dotnet nuget push ./nupkg/*.nupkg --source $GITHUB_FEED --skip-duplicate --api-key ${GITHUB_TOKEN}
+        run: dotnet nuget push ./nupkg/*.nupkg --no-symbols --skip-duplicate
+        env:
+          NUGET_AUTH_TOKEN: ${{ github.token }}
   deploy:
     needs: build
     if: github.event_name == 'release'
@@ -84,6 +86,8 @@ jobs:
           echo Clean Version: $VERSION
           dotnet pack -v normal -c Release --include-symbols --include-source -p:PackageVersion=$VERSION -o nupkg src/$PROJECT_NAME/$PROJECT_NAME.*proj
       - name: Push to GitHub Feed
-        run: dotnet nuget push ./nupkg/*.nupkg --source $GITHUB_FEED --skip-duplicate --api-key ${GITHUB_TOKEN}
+        run: dotnet nuget push ./nupkg/*.nupkg --no-symbols --skip-duplicate
+        env:
+          NUGET_AUTH_TOKEN: ${{ github.token }}
       - name: Push to NuGet Feed
         run: dotnet nuget push ./nupkg/*.nupkg --source $NUGET_FEED --skip-duplicate --api-key $NUGET_KEY
