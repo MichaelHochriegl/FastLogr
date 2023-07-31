@@ -13,7 +13,7 @@ namespace FastLogr.Generator;
 public class FastLogrGenerator : IIncrementalGenerator
 {
     private static readonly string MarkerAttributeFullQualifiedNameTest = typeof(LogMessageAttribute).FullName;
-    
+
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         Debugger.Launch();
@@ -45,7 +45,9 @@ public class FastLogrGenerator : IIncrementalGenerator
         }
         
         var attribute = context.Attributes.FirstOrDefault(a =>
-            a.AttributeClass is not null && a.AttributeClass.Equals(markerAttribute, SymbolEqualityComparer.Default));
+            a.AttributeClass is not null && a.AttributeClass.Name == markerAttribute.Name);
+        // var attribute = context.Attributes.FirstOrDefault(a =>
+        //     a.AttributeClass is not null && a.AttributeClass.Equals(markerAttribute, SymbolEqualityComparer.Default));
         
         if (attribute is null)
         {
@@ -76,17 +78,15 @@ public class FastLogrGenerator : IIncrementalGenerator
         }
 
 
-        var contextTargetSymbol = context.TargetSymbol as IFieldSymbol;
-        if (contextTargetSymbol is null)
-        {
-            return null;
-        }
+        // if (context.TargetSymbol is not IFieldSymbol contextTargetSymbol)
+        // {
+        //     return null;
+        // }
 
-        var typeSymbol = contextTargetSymbol.Type as INamedTypeSymbol;
-        if (typeSymbol is null)
-        {
-            return null;
-        }
+        // if (contextTargetSymbol.Type is not INamedTypeSymbol typeSymbol)
+        // {
+        //     return null;
+        // }
         
         var messageTemplate = attribute.NamedArguments.First(a => a.Key == "MessageTemplate").Value.Value;
         var logLevel = attribute.NamedArguments.FirstOrDefault(a => a.Key == "LogLevel").Value.Value ?? LogLevel.Information;
