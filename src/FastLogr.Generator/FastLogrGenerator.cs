@@ -13,12 +13,13 @@ namespace FastLogr.Generator;
 public class FastLogrGenerator : IIncrementalGenerator
 {
     private static readonly string MarkerAttributeFullQualifiedNameTest = typeof(LogMessageAttribute).FullName;
+    private static readonly string MarkerAttributeFullQualifiedNameTest1 = "FastLogr.Attributes.LogMessageAttribute";
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         Debugger.Launch();
         var logMessagesToGenerate = context.SyntaxProvider.ForAttributeWithMetadataName(
-            MarkerAttributeFullQualifiedNameTest,
+            MarkerAttributeFullQualifiedNameTest1,
             static (syntaxNode, _) => true,
             GetSemanticTargetForGeneration).Where(x => x is not null);
         
@@ -38,16 +39,16 @@ public class FastLogrGenerator : IIncrementalGenerator
             return null;
         }
         
-        var markerAttribute = context.SemanticModel.Compilation.GetTypeByMetadataName(MarkerAttributeFullQualifiedNameTest);
+        var markerAttribute = context.SemanticModel.Compilation.GetTypeByMetadataName(MarkerAttributeFullQualifiedNameTest1);
         if (markerAttribute is null)
         {
             return null;
         }
         
-        var attribute = context.Attributes.FirstOrDefault(a =>
-            a.AttributeClass is not null && a.AttributeClass.Name == markerAttribute.Name);
         // var attribute = context.Attributes.FirstOrDefault(a =>
-        //     a.AttributeClass is not null && a.AttributeClass.Equals(markerAttribute, SymbolEqualityComparer.Default));
+        //     a.AttributeClass is not null && a.AttributeClass.Name == markerAttribute.Name);
+        var attribute = context.Attributes.FirstOrDefault(a =>
+            a.AttributeClass is not null && a.AttributeClass.Equals(markerAttribute, SymbolEqualityComparer.Default));
         
         if (attribute is null)
         {
