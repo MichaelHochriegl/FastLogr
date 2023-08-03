@@ -1,4 +1,5 @@
 using FastLogr.Attributes;
+using SourceGenPlayground.Example.Worker;
 
 namespace FastLogr.Example.WorkerService;
 

@@ -23,7 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\FastLogr.Attributes\FastLogr.Attributes.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
+        <ProjectReference Include="..\..\src\FastLogr.Attributes\FastLogr.Attributes.csproj" />
         <ProjectReference Include="..\..\src\FastLogr.Generator\FastLogr.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     </ItemGroup>
 </Project>

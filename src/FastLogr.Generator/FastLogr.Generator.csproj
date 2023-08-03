@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" PrivateAssets="all" GeneratePathProperty="true" />
     <PackageReference Include="Microsoft.Net.Compilers.Toolset">
       <PrivateAssets>all</PrivateAssets>
@@ -41,7 +41,6 @@
   <Target Name="GetDependencyTargetPaths">
     <ItemGroup>
       <TargetPathWithTargetPlatformMoniker Include="$(PKGMicrosoft_Extensions_Logging_Abstractions)\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll" IncludeRuntimeDependency="false" />
-<!--      <TargetPathWithTargetPlatformMoniker Include="$(OutputPath)\FastLogr.Attributes.dll" IncludeRuntimeDependency="false" />-->
     </ItemGroup>
   </Target>
 
