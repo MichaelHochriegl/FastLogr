@@ -2,10 +2,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" PrivateAssets="all" GeneratePathProperty="true" />
-    <PackageReference Include="Microsoft.Net.Compilers.Toolset">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
   
   <ItemGroup>
@@ -62,9 +58,6 @@
     <None Include="$(OutputPath)\FastLogr.Attributes.dll" Pack="true" PackagePath="lib\netstandard2.0" Visible="true" />
 
     <!-- Pack the all the dlls from Microsoft.Extensions.Logging.Abstractions -->
-    <None Include="$(PKGMicrosoft_Extensions_Logging_Abstractions)\lib\netstandard2.0\*.dll"
-          Pack="true"
-          PackagePath="analyzers/dotnet/cs"
-          Visible="false" />
+    <None Include="$(PKGMicrosoft_Extensions_Logging_Abstractions)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
   </ItemGroup>
 </Project>
