@@ -41,7 +41,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: binlog
-          path: ./src/${{ env.PROJECT_NAME }}/msbuild.binlog
+          path: ./msbuild.binlog
       - name: Build
         run: dotnet build -c Release --no-restore
       - name: Test
