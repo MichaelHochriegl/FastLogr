@@ -34,6 +34,8 @@ jobs:
             7.x
       - name: Restore
         run: dotnet restore
+      - name: List NuGet Packages
+        run: ls -R $HOME/.nuget/packages
       - name: Build with binlog
         run: dotnet build -c Release --no-restore --force /bl
       - name: Upload binlog
