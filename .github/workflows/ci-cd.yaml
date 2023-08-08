@@ -45,7 +45,7 @@ jobs:
           latestTag=$(git describe --tags --abbrev=0 2>/dev/null || echo 0.0.1)
           runId=$GITHUB_RUN_ID
           packageVersion="${latestTag//v}-build.${runId}"
-          dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$packageVersion src/$PROJECT_NAME/$PROJECT_NAME.*proj
+          dotnet pack -v normal -c Release -o ./artifacts --no-restore --include-symbols --include-source -p:PackageVersion=$packageVersion src/$PROJECT_NAME/$PROJECT_NAME.*proj
       - name: Restore Nuget Test Project
         if: matrix.os == 'ubuntu-latest'
         run: dotnet restore $NUGET_TEST_PROJECT --packages ./packages --configfile "nuget.integration-tests.config"
@@ -60,7 +60,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: nupkg
-          path: ./src/${{ env.PROJECT_NAME }}/bin/Release/*.nupkg
+          path: ./artifacts/*.nupkg
   prerelease:
     needs: build
     if: github.ref == 'refs/heads/main'
