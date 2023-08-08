@@ -1,5 +1,3 @@
-using System.Diagnostics;
-using FastLogr.Attributes;
 using FastLogr.Generator.Sources;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -12,11 +10,10 @@ namespace FastLogr.Generator;
 [Generator]
 public class FastLogrGenerator : IIncrementalGenerator
 {
-    private static readonly string MarkerAttributeFullQualifiedNameTest = typeof(LogMessageAttribute).FullName;
-    
+    private const string MarkerAttributeFullQualifiedNameTest = "FastLogr.Attributes.LogMessageAttribute";
+
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        Debugger.Launch();
         var logMessagesToGenerate = context.SyntaxProvider.ForAttributeWithMetadataName(
             MarkerAttributeFullQualifiedNameTest,
             static (syntaxNode, _) => true,
@@ -73,19 +70,6 @@ public class FastLogrGenerator : IIncrementalGenerator
             {
                 actionTypes = actionTypes.Add(Token(SyntaxKind.CommaToken));
             }
-        }
-
-
-        var contextTargetSymbol = context.TargetSymbol as IFieldSymbol;
-        if (contextTargetSymbol is null)
-        {
-            return null;
-        }
-
-        var typeSymbol = contextTargetSymbol.Type as INamedTypeSymbol;
-        if (typeSymbol is null)
-        {
-            return null;
         }
         
         var messageTemplate = attribute.NamedArguments.First(a => a.Key == "MessageTemplate").Value.Value;

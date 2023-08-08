@@ -34,6 +34,16 @@ jobs:
             7.x
       - name: Restore
         run: dotnet restore
+      - name: List NuGet Packages
+        run: ls -R $HOME/.nuget/packages
+      - name: Build with binlog
+        run: dotnet build -c Release --no-restore --force /bl
+      - name: Upload binlog
+        if: matrix.os == 'ubuntu-latest' && success() || failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: binlog
+          path: ./msbuild.binlog
       - name: Build
         run: dotnet build -c Release --no-restore
       - name: Test

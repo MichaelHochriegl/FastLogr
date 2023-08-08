@@ -1,12 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" PrivateAssets="all" GeneratePathProperty="true" />
   </ItemGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\FastLogr.Attributes\FastLogr.Attributes.csproj" PrivateAssets="all" />
   </ItemGroup>
+  
+  <PropertyGroup>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <IsRoslynComponent>true</IsRoslynComponent>
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+  </PropertyGroup>
   
   <PropertyGroup>
     <!-- NuGet settings -->
@@ -50,5 +56,8 @@
 
     <!-- Pack the attributes dll in the lib\netstandard2.0 path -->
     <None Include="$(OutputPath)\FastLogr.Attributes.dll" Pack="true" PackagePath="lib\netstandard2.0" Visible="true" />
+
+    <!-- Pack the all the dlls from Microsoft.Extensions.Logging.Abstractions -->
+    <None Include="$(PKGMicrosoft_Extensions_Logging_Abstractions)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
   </ItemGroup>
 </Project>

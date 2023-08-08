@@ -18,7 +18,7 @@ public static class StringExtensions
         // Capitalize the first letter of each word except the first word
         for (int i = 1; i < words.Length; i++)
         {
-            words[i] = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(words[i].ToLower());
+            words[i] = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(words[i].ToLower());
         }
 
         // Join the words back to form the camelCase string
@@ -41,7 +41,7 @@ public static class StringExtensions
         {
             words[i] = i == 0
                 ? words[i].Substring(0, 1).ToLower() + words[i].Substring(1)
-                : CultureInfo.CurrentCulture.TextInfo.ToTitleCase(words[i].ToLower());
+                : CultureInfo.InvariantCulture.TextInfo.ToTitleCase(words[i].ToLower());
         }
 
         // Join the words back to form the lowerCamelCase string
