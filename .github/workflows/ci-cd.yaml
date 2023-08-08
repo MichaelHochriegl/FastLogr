@@ -12,6 +12,7 @@ env:
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   # Project name to pack and publish
   PROJECT_NAME: FastLogr.Generator
+  NUGET_TEST_PROJECT: ./test/FastLogr.Generator.Nuget.Tests.Integration
   # GitHub Packages Feed settings
   GITHUB_FEED: https://nuget.pkg.github.com/MichaelHochriegl/index.json
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -34,16 +35,6 @@ jobs:
             7.x
       - name: Restore
         run: dotnet restore
-      - name: List NuGet Packages
-        run: ls -R $HOME/.nuget/packages
-      - name: Build with binlog
-        run: dotnet build -c Release --no-restore --force /bl
-      - name: Upload binlog
-        if: matrix.os == 'ubuntu-latest' && success() || failure()
-        uses: actions/upload-artifact@v2
-        with:
-          name: binlog
-          path: ./msbuild.binlog
       - name: Build
         run: dotnet build -c Release --no-restore
       - name: Test
@@ -54,13 +45,22 @@ jobs:
           latestTag=$(git describe --tags --abbrev=0 2>/dev/null || echo 0.0.1)
           runId=$GITHUB_RUN_ID
           packageVersion="${latestTag//v}-build.${runId}"
-          dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$packageVersion src/$PROJECT_NAME/$PROJECT_NAME.*proj
+          dotnet pack -v normal -c Release -o ./artifacts --no-restore --include-symbols --include-source -p:PackageVersion=$packageVersion src/$PROJECT_NAME/$PROJECT_NAME.*proj
+      - name: Restore Nuget Test Project
+        if: matrix.os == 'ubuntu-latest'
+        run: dotnet restore $NUGET_TEST_PROJECT --packages ./packages --configfile "nuget.integration-tests.config"
+      - name: Build Nuget Test Project
+        if: matrix.os == 'ubuntu-latest'
+        run: dotnet build $NUGET_TEST_PROJECT -c Release --packages ./packages --no-restore
+      - name: Test Nuget Test Project
+        if: matrix.os == 'ubuntu-latest'
+        run: dotnet test $NUGET_TEST_PROJECT -c Release --no-build --no-restore
       - name: Upload Artifact
         if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v2
         with:
           name: nupkg
-          path: ./src/${{ env.PROJECT_NAME }}/bin/Release/*.nupkg
+          path: ./artifacts/*.nupkg
   prerelease:
     needs: build
     if: github.ref == 'refs/heads/main'
