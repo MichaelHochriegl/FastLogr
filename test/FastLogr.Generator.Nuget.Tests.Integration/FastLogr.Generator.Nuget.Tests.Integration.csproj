@@ -23,7 +23,7 @@
 
   <!-- 👇 Add the temporary package -->
   <ItemGroup>
-    <PackageReference Include="FastLogr" IncludePrerelease="true" Version="*" />
+    <PackageReference Include="FastLogr" IncludePrerelease="true" Version="*" AllowedVersions="*-*" />
   </ItemGroup>
 
   <!-- 👇 Link in all the files from the integration test project, so we run the same tests -->
