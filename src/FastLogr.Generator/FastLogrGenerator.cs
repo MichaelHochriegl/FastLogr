@@ -12,7 +12,7 @@ namespace FastLogr.Generator;
 [Generator]
 public class FastLogrGenerator : IIncrementalGenerator
 {
-    // private static readonly string MarkerAttributeFullQualifiedNameTest = typeof(LogMessageAttribute).FullName;
+    private static readonly string MarkerAttributeFullQualifiedNameTest = typeof(LogMessageAttribute).FullName;
     private static readonly string MarkerAttributeFullQualifiedNameTest1 = "FastLogr.Attributes.LogMessageAttribute";
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
