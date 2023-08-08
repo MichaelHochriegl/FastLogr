@@ -12,14 +12,12 @@ namespace FastLogr.Generator;
 [Generator]
 public class FastLogrGenerator : IIncrementalGenerator
 {
-    private static readonly string MarkerAttributeFullQualifiedNameTest = typeof(LogMessageAttribute).FullName;
-    private static readonly string MarkerAttributeFullQualifiedNameTest1 = "FastLogr.Attributes.LogMessageAttribute";
+    private const string MarkerAttributeFullQualifiedNameTest = "FastLogr.Attributes.LogMessageAttribute";
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        // Debugger.Launch();
         var logMessagesToGenerate = context.SyntaxProvider.ForAttributeWithMetadataName(
-            MarkerAttributeFullQualifiedNameTest1,
+            MarkerAttributeFullQualifiedNameTest,
             static (syntaxNode, _) => true,
             GetSemanticTargetForGeneration).Where(x => x is not null);
         
@@ -39,7 +37,7 @@ public class FastLogrGenerator : IIncrementalGenerator
             return null;
         }
         
-        var markerAttribute = context.SemanticModel.Compilation.GetTypeByMetadataName(MarkerAttributeFullQualifiedNameTest1);
+        var markerAttribute = context.SemanticModel.Compilation.GetTypeByMetadataName(MarkerAttributeFullQualifiedNameTest);
         if (markerAttribute is null)
         {
             return null;
@@ -77,17 +75,6 @@ public class FastLogrGenerator : IIncrementalGenerator
                 actionTypes = actionTypes.Add(Token(SyntaxKind.CommaToken));
             }
         }
-
-
-        // if (context.TargetSymbol is not IFieldSymbol contextTargetSymbol)
-        // {
-        //     return null;
-        // }
-
-        // if (contextTargetSymbol.Type is not INamedTypeSymbol typeSymbol)
-        // {
-        //     return null;
-        // }
         
         var messageTemplate = attribute.NamedArguments.First(a => a.Key == "MessageTemplate").Value.Value;
         var logLevel = attribute.NamedArguments.FirstOrDefault(a => a.Key == "LogLevel").Value.Value ?? LogLevel.Information;
