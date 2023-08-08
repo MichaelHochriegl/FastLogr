@@ -1,5 +1,3 @@
-using System.Diagnostics;
-using FastLogr.Attributes;
 using FastLogr.Generator.Sources;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -43,8 +41,6 @@ public class FastLogrGenerator : IIncrementalGenerator
             return null;
         }
         
-        // var attribute = context.Attributes.FirstOrDefault(a =>
-        //     a.AttributeClass is not null && a.AttributeClass.Name == markerAttribute.Name);
         var attribute = context.Attributes.FirstOrDefault(a =>
             a.AttributeClass is not null && a.AttributeClass.Equals(markerAttribute, SymbolEqualityComparer.Default));
         
