@@ -34,6 +34,11 @@ public class FastLogrGenerator : IIncrementalGenerator
         {
             return null;
         }
+
+        if (compilationUnit.Members.FirstOrDefault(m => m.IsKind(SyntaxKind.NamespaceDeclaration) || m.IsKind(SyntaxKind.FileScopedNamespaceDeclaration)) is not BaseNamespaceDeclarationSyntax logToGenerateNamespace)
+        {
+            return null;
+        }
         
         var markerAttribute = context.SemanticModel.Compilation.GetTypeByMetadataName(MarkerAttributeFullQualifiedNameTest);
         if (markerAttribute is null)
@@ -77,7 +82,6 @@ public class FastLogrGenerator : IIncrementalGenerator
         var eventId = attribute.NamedArguments.FirstOrDefault(a => a.Key == "EventId").Value.Value ?? 0;
         var eventName = attribute.NamedArguments.FirstOrDefault(a => a.Key == "EventName").Value.Value;
         
-        
-        return new LogMessageToGenerate(className, actionTypes, (LogLevel)logLevel, new EventId((int)eventId, (string?)eventName), (string)messageTemplate!, compilationUnit.Usings);
+        return new LogMessageToGenerate(className, actionTypes, (LogLevel)logLevel, new EventId((int)eventId, (string?)eventName), (string)messageTemplate!, compilationUnit.Usings, logToGenerateNamespace);
     }
 }

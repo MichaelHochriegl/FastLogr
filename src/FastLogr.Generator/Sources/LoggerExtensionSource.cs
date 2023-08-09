@@ -39,12 +39,7 @@ internal static class LoggerExtensionSource
                     usings))
             .WithMembers(
                 SingletonList<MemberDeclarationSyntax>(
-                    FileScopedNamespaceDeclaration(
-                            QualifiedName(
-                                QualifiedName(
-                                    IdentifierName("SourceGenPlayground"),
-                                    IdentifierName("Example")),
-                                IdentifierName("Worker")))
+                    FileScopedNamespaceDeclaration(logMessageToGenerate.Namespace.Name)
                         .WithMembers(
                             SingletonList<MemberDeclarationSyntax>(
                                 ClassDeclaration($"{logMessageToGenerate.ClassName}Extensions")

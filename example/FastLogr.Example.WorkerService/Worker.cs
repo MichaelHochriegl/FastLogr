@@ -1,12 +1,11 @@
 using FastLogr.Attributes;
-using SourceGenPlayground.Example.Worker;
 
 namespace FastLogr.Example.WorkerService;
 
 public class Worker : BackgroundService
 {
     [LogMessage(MessageTemplate = "Test with one parameter: '{firstParameter}'")]
-    private static Action<string> LogExampleMessageInWorker;
+    private static Action<string> LogExampleMessageInWorker = default!;
     
     private readonly ILogger<Worker> _logger;
 
