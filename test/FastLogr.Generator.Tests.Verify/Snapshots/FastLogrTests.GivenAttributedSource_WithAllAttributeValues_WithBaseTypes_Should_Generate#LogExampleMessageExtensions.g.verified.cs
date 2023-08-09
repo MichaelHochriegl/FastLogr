@@ -5,7 +5,7 @@ using System;
 using Microsoft.Extensions.Logging;
 using FastLogr.Attributes;
 
-namespace SourceGenPlayground.Example.Worker;
+namespace MySourceGenTest;
 public static class LogExampleMessageExtensions
 {
     private static readonly Action<ILogger, string, int, string?, Exception> s_logExampleMessage = LoggerMessage.Define<string, int, string?>(LogLevel.Error, new EventId(1, "Foo"), "This is my example message with '{firstParameter}', '{secondParameter}' and an optional '{thirdParameter}'");

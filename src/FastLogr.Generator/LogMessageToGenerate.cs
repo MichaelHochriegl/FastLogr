@@ -6,6 +6,7 @@ namespace FastLogr.Generator;
 
 public class LogMessageToGenerate
 {
+    public readonly BaseNamespaceDeclarationSyntax Namespace;
     public readonly string ClassName;
     public readonly SyntaxNodeOrTokenList ActionTypes;
     public readonly LogLevel LogLevel;
@@ -18,7 +19,7 @@ public class LogMessageToGenerate
         LogLevel logLevel,
         EventId eventId,
         string templateMessage,
-        IEnumerable<UsingDirectiveSyntax> usings)
+        IEnumerable<UsingDirectiveSyntax> usings, BaseNamespaceDeclarationSyntax ns)
     {
         ClassName = className;
         ActionTypes = actionTypes;
@@ -26,5 +27,6 @@ public class LogMessageToGenerate
         EventId = eventId;
         TemplateMessage = templateMessage;
         Usings = usings;
+        Namespace = ns;
     }
 }

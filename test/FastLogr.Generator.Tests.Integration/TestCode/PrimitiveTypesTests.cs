@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Logging.Abstractions;
-using SourceGenPlayground.Example.Worker;
 
 namespace FastLogr.Generator.Tests.Integration.TestCode;
 
