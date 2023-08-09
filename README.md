@@ -176,3 +176,6 @@ public record FancyType(string FancyTypeString, int FancyTypeInt, bool FancyType
 ```
 
 Any `usings` that your `class` has will also be available to the `ILogger` extension built by `FastLogr`.
+
+## Attribution
+Thanks "Pause08" for providing the icon via "flaticon"! <a href="https://www.flaticon.com/free-icons/growth" title="growth icons">Growth icons created by Pause08 - Flaticon</a>
