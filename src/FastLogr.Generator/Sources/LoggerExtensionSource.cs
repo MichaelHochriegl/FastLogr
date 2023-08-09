@@ -40,6 +40,7 @@ internal static class LoggerExtensionSource
             .WithMembers(
                 SingletonList<MemberDeclarationSyntax>(
                     FileScopedNamespaceDeclaration(logMessageToGenerate.Namespace.Name)
+                        .WithNamespaceKeyword(NullableEnabledSource.GetSyntaxToken(SyntaxKind.NamespaceKeyword))
                         .WithMembers(
                             SingletonList<MemberDeclarationSyntax>(
                                 ClassDeclaration($"{logMessageToGenerate.ClassName}Extensions")

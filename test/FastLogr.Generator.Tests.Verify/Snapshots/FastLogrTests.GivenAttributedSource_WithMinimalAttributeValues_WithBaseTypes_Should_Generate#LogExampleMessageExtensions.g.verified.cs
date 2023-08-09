@@ -13,6 +13,7 @@ using System;
 using Microsoft.Extensions.Logging;
 using FastLogr.Attributes;
 
+#nullable enable
 namespace MySourceGenTest;
 public static class LogExampleMessageExtensions
 {
