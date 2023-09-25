@@ -4,29 +4,18 @@ using Microsoft.Extensions.Logging;
 
 namespace FastLogr.Generator;
 
-public class LogMessageToGenerate
+public record LogMessageToGenerate(string ClassName,
+    SyntaxNodeOrTokenList ActionTypes,
+    LogLevel LogLevel,
+    EventId EventId,
+    string TemplateMessage,
+    SyntaxList<UsingDirectiveSyntax> Usings, BaseNamespaceDeclarationSyntax Namespace)
 {
-    public readonly BaseNamespaceDeclarationSyntax Namespace;
-    public readonly string ClassName;
-    public readonly SyntaxNodeOrTokenList ActionTypes;
-    public readonly LogLevel LogLevel;
-    public readonly EventId EventId;
-    public readonly string TemplateMessage;
-    public readonly IEnumerable<UsingDirectiveSyntax> Usings;
-    
-    public LogMessageToGenerate(string className,
-        SyntaxNodeOrTokenList actionTypes,
-        LogLevel logLevel,
-        EventId eventId,
-        string templateMessage,
-        IEnumerable<UsingDirectiveSyntax> usings, BaseNamespaceDeclarationSyntax ns)
-    {
-        ClassName = className;
-        ActionTypes = actionTypes;
-        LogLevel = logLevel;
-        EventId = eventId;
-        TemplateMessage = templateMessage;
-        Usings = usings;
-        Namespace = ns;
-    }
+    public readonly BaseNamespaceDeclarationSyntax Namespace = Namespace;
+    public readonly string ClassName = ClassName;
+    public readonly SyntaxNodeOrTokenList ActionTypes = ActionTypes;
+    public readonly LogLevel LogLevel = LogLevel;
+    public readonly EventId EventId = EventId;
+    public readonly string TemplateMessage = TemplateMessage;
+    public readonly SyntaxList<UsingDirectiveSyntax> Usings = Usings;
 }
