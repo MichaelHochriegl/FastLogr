@@ -9,7 +9,7 @@ public record LogMessageToGenerate(string ClassName,
     LogLevel LogLevel,
     EventId EventId,
     string TemplateMessage,
-    IEnumerable<UsingDirectiveSyntax> Usings, BaseNamespaceDeclarationSyntax Namespace)
+    SyntaxList<UsingDirectiveSyntax> Usings, BaseNamespaceDeclarationSyntax Namespace)
 {
     public readonly BaseNamespaceDeclarationSyntax Namespace = Namespace;
     public readonly string ClassName = ClassName;
@@ -17,5 +17,5 @@ public record LogMessageToGenerate(string ClassName,
     public readonly LogLevel LogLevel = LogLevel;
     public readonly EventId EventId = EventId;
     public readonly string TemplateMessage = TemplateMessage;
-    public readonly IEnumerable<UsingDirectiveSyntax> Usings = Usings;
+    public readonly SyntaxList<UsingDirectiveSyntax> Usings = Usings;
 }
